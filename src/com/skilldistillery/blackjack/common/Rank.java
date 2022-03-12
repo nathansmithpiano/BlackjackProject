@@ -18,9 +18,9 @@ public enum Rank {
     
     @Override
     public String toString() {
-//    	String output = this + "";
-//    	output = output.substring(0, 1).toUpperCase() + output.substring(1, output.length() - 1).toLowerCase();
-//    	return output;
-    	return "Rank.toString() not yet implemented";
+    	//format as proper noun
+    	String firstLetter = this.name().substring(0,1);
+    	String remainder = this.name().substring(1,this.name().length()).toLowerCase();
+    	return firstLetter + remainder;
     }
 }

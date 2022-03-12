@@ -11,12 +11,12 @@ public class Card {
 	}
 	
 	public int getValue() {
-		return -1;
+		return rank.getValue();
 	}
 	
 	@Override
 	public String toString() {
-		return "Card.toString() not yet implemented";
+		return rank + " of " + suit;
 	}
 
 }

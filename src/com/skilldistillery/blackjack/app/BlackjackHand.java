@@ -1,5 +1,7 @@
 package com.skilldistillery.blackjack.app;
 
+import com.skilldistillery.blackjack.common.Card;
+
 public class BlackjackHand extends Hand {
 	
 	public BlackjackHand() {
@@ -8,28 +10,36 @@ public class BlackjackHand extends Hand {
 	
 	@Override
 	public int getHandValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		int totalValue = 0;
+		for (Card card : cards) {
+			totalValue += card.getValue();
+		}
+		return totalValue;
 	}
 	
 	public boolean isBlackjack() {
-		System.out.println("Blackjackhand.isBlackjack() not yet implemented");
-		return false;
+		return getHandValue() == 21;
 	}
 	
 	public boolean isBust() {
-		System.out.println("Blackjackhand.isBust() not yet implemented");
-		return false;
+		return getHandValue() > 21;
 	}
 	
 	public boolean isHard() {
-		System.out.println("Blackjackhand.isHard() not yet implemented");
-		return false;
+		//true if contains ace
+		boolean isHard = false;
+		for (Card card : cards) {
+			if (card.getValue() == 1 || card.getValue() == 11) {
+				isHard = true;
+			}
+		}
+		return isHard;
 	}
 	
 	public boolean isSoft() {
-		System.out.println("Blackjackhand.isSoft() not yet implemented");
-		return false;
+		//opposite of isHard()
+		//TODO : this is unnecessary if calling !isHard() later
+		return !isHard();
 	}
 
 }
