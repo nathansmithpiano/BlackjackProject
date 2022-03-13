@@ -11,11 +11,39 @@ public class DisplayHandler {
 	private final int COL_SPACER = 4; //empty space between columns
 	private final int LEFT_SPACER = 4; //empty space before first column 
 	
+	//print player header by sending String[] of names to printRow() for formatting and printing
+	public void printPlayerHeader(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer) {
+		int numPlayers = playerList.size();
+		String[] playerNames = new String[numPlayers];
+		
+		//populate playerNames with String
+		for (int i = 0; i < numPlayers; i++) {
+			// unique formatting for dealer
+			if (i == numPlayers - 1) {
+				//if dealer is current player
+				if (playerList.get(playerList.size() - 1) == currentPlayer) {
+					playerNames[i] = "-> DEALER <-";
+				} else {
+					//not current player
+					playerNames[i] = "DEALER";
+				}
+			} else {
+				//if player is current player
+				if (playerList.get(i) == currentPlayer) {
+					playerNames[i] = "-> PLAYER " + (i + 1) + " <-";
+				} else {
+					//not current player
+					playerNames[i] = "PLAYER " + (i + 1);
+				}
+			}
+		}
+		
+		//send to printRow for printing
+		printRow(playerNames);
+	}
+	
+	//print all cards by sending String[][] of card names to printRow() for formatting and printing
 	public void printCards(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer) {
-		
-		
-		//each Hand has showCard(boolean hideFirst, int index) which will return String of the card info
-		//showCard can choose to hide or show
 		
 		String[][] cards; //[row][player] of width players and of height most cards
 		
@@ -34,8 +62,12 @@ public class DisplayHandler {
 		for (int r = 0; r < mostCards; r++) {
 			for (int p = 0; p < numPlayers; p++) {
 				BlackjackHand player = playerList.get(p);
-				//hide first if currentPlayer or dealer
-				if (currentPlayer == player || currentPlayer == playerList.get(numPlayers - 1)) {
+				//hide first if currentPlayer
+				
+				//TODO: implement something from additional passed parameter
+				// needs to hide dealer card is continuous
+				// needs to show all cards if round is over (careful, NOT via Hand stuff)
+				if (currentPlayer == player) {
 					cards[r][p] = player.printCard("hidefirst", r);
 				} else {
 					cards[r][p] = player.printCard("", r);
@@ -51,14 +83,15 @@ public class DisplayHandler {
 		
 	}
 	
+	//generic method that will print a formatted row, could also change to return String instead
 	//printRow receives each card String and formats for printing to console
-	private void printRow(String[] cards) {
+	private void printRow(String[] columns) {
 		String line = ""; //line that will actually be printed
-		int numColumns = cards.length;
+		int numColumns = columns.length;
 		
 		//for each column
 		for (int i = 0 ; i < numColumns; i++) {
-			String card = cards[i]; //card String
+			String card = columns[i]; //card String
 			
 			//create each column with centered string of card String
 			String column = ""; //string for each column after centering
@@ -74,16 +107,18 @@ public class DisplayHandler {
 				rightPadding += " ";
 			}
 			
+			//create centered column String
 			column += leftPadding + card + rightPadding;
 			
-			//left offset of empty spaces via int LEFT_SPACER on first column only
+			//create line
+			//add left offset of empty spaces via int LEFT_SPACER on first column only
 			if (i == 0) {
 				for (int j = 0; j < LEFT_SPACER; j++) {
 					line += " ";
 				}
 			}
 			
-			// add centered column to line
+			// add centered column
 			line += column;
 			
 			//add spacer if not the last column
@@ -94,6 +129,8 @@ public class DisplayHandler {
 			}
 		}
 		
+		//display line
+		//could output as formatted String for future implementation
 		System.out.println(line);
 	}
 

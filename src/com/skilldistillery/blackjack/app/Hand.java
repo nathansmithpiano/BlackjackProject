@@ -60,7 +60,7 @@ public abstract class Hand {
 	
 	public String printCard(String hidefirst, int index) {
 		if (index == 0 && hidefirst.equals("hidefirst")) {
-			return "(First card hidden)";
+			return "(card hidden)";
 		} else if (cards.size() > index) {
 			return cards.get(index).toString();
 		} else {

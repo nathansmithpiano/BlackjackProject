@@ -66,6 +66,10 @@ public class GameOverTesterMultiPlayer {
 			}
 			
 			//print cards to screen
+			
+			//TODO: Add something for when round is over, show all cards
+			// see DisplayHandler line 66
+			display.printPlayerHeader(playerList, currentPlayer);
 			display.printCards(playerList, currentPlayer);
 //			printStatusSingleLine(playerList);
 			
