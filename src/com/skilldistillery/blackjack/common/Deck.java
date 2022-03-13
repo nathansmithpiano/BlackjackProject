@@ -13,32 +13,36 @@ public class Deck {
 	{
 		cards = new ArrayList<>(56);
 		discard = new ArrayList<>(54);
+		
 		for (Rank rank : Rank.values()) {
 			for (Suit suit : Suit.values()) {
 				cards.add(new Card(suit, rank));
 			}
 		}
-	}
-	
-	// TODO: Should this be empty?
-	public Deck() {
+		
 		shuffle(cards);
 	}
 	
-	// TODO: Will this be necessary?
-	public int cardsLeftInDeck() {
-		return size();
+	public int cardsInDeck() {
+		return cards.size();
+	}
+	
+	public int cardsInDiscard() {
+		return discard.size();
 	}
 	
 	public Card dealCard() {
-		//if card remains in deck
-		if (size() == 0) {
-			// shuffle discard, set as deck, clear discard
-			System.out.println("Deck is empty");
-			shuffle(discard);
-			cards = discard;
+		//if deck is out of cards
+		if (cardsInDeck() == 0) {
+			// put discard into deck and shuffle
+//			// TODO : Ask Rob!
+//			cards = discard; // this does not work as intended
+			cards.clear();
+			cards.addAll(discard); //but this does
 			discard.clear();
+			shuffle(cards);
 		}
+		//deal card and remove from deck
 		Card card = cards.get(0);
 		cards.remove(card);
 		return card;
@@ -52,14 +56,8 @@ public class Deck {
 		Collections.shuffle(deck);
 	}
 	
-	// TODO: Will this be necessary?
-	// If we are just passing size() to cardsLeftInDeck(), why public?
-	public int size() {
-		return cards.size();
-	}
-	
 	public void printDeck() {
-		System.out.println("Deck has " + size() + " cards:");
+		System.out.println("Deck has " + cardsInDeck() + " cards:");
 		for (Card card : cards) {
 			System.out.println(card);
 		}

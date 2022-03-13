@@ -4,10 +4,12 @@ import com.skilldistillery.blackjack.common.Deck;
 
 public class BlackjackApp {
 	
-	GameHandler game;
+//	DeckTester game;
+	GameOverTesterMultiPlayer game;
 	
 	{
-		game = new GameHandler();
+//		game = new DeckTester();
+		game = new GameOverTesterMultiPlayer();
 	}
 	
 

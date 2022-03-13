@@ -4,10 +4,6 @@ import com.skilldistillery.blackjack.common.Card;
 
 public class BlackjackHand extends Hand {
 	
-	public BlackjackHand() {
-		
-	}
-	
 	@Override
 	public int getHandValue() {
 		int totalValue = 0;
@@ -23,6 +19,14 @@ public class BlackjackHand extends Hand {
 	
 	public boolean isBust() {
 		return getHandValue() > 21;
+	}
+	
+	public boolean roundOver() {
+		if (isBlackjack() || isBust() || isPass()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean isHard() {
@@ -41,5 +45,7 @@ public class BlackjackHand extends Hand {
 		//TODO : this is unnecessary if calling !isHard() later
 		return !isHard();
 	}
+
+	
 
 }
