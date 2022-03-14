@@ -5,11 +5,11 @@ import com.skilldistillery.blackjack.common.Deck;
 public class BlackjackApp {
 	
 //	DeckTester game;
-	GameOverTesterMultiPlayer game;
+	GameHandler game;
 	
 	{
 //		game = new DeckTester();
-		game = new GameOverTesterMultiPlayer();
+		game = new GameHandler();
 	}
 	
 
@@ -19,7 +19,6 @@ public class BlackjackApp {
 	}
 	
 	private void run() {
-		game.setup();
 		game.start();
 		
 	}

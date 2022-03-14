@@ -6,12 +6,27 @@ import com.skilldistillery.blackjack.common.Card;
 
 public class DisplayHandler {
 	
-	//note: recommended minimum of 22 for COL_WIDTH, largest is ROUND_OPTIONS
-	private final int COL_WIDTH = 22; //width of each player column
-	private final int COL_SPACER = 4; //empty space between columns
-	private final int LEFT_SPACER = 4; //empty space before first column 
-	private final String ROUND_OPTIONS = "1. Hit 2. Stay 3. Exit";
-	private final String CHOICE_PROMPT = "Your choice: ";
+	Settings settings;
+	
+	{
+		settings = new Settings();
+	}
+	
+	public void printWelcome() {
+		printArt();
+		System.out.println("------------ OPTIONS ------------");
+	}
+	
+	private void printArt() {
+		System.out.println(" _     _            _    _            _    ");
+		System.out.println("| |   | |          | |  (_)          | |   ");
+		System.out.println("| |__ | | __ _  ___| | ___  __ _  ___| | __");
+		System.out.println("| '_ \\| |/ _` |/ __| |/ / |/ _` |/ __| |/ /");
+		System.out.println("| |_) | | (_| | (__|   <| | (_| | (__|   < ");
+		System.out.println("|_.__/|_|\\__,_|\\___|_|\\_\\ |\\__,_|\\___|_|\\_\\");
+		System.out.println("                       _/ |                ");
+		System.out.println("                      |__/  art from https://ascii.co.uk");
+	}
 	
 	//print player header by sending String[] of names to printRow() for formatting, print return
 	public void printPlayerHeader(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer, boolean roundOver) {
@@ -99,7 +114,7 @@ public class DisplayHandler {
 			//if round is not over and currentPlayer and not dealer
 			if (!roundOver && currentPlayer == player && !(currentPlayer == playerList.get(numPlayers - 1))) {
 				//show options
-				status = ROUND_OPTIONS;
+				status = settings.getRoundOptions();
 			} 
 			
 			//show all statuses when round is over, otherwise nothing
@@ -119,6 +134,28 @@ public class DisplayHandler {
 		System.out.println(getFormattedRow(statusArray));
 	}
 	
+	public void printWinners(String winnerString) {
+		String line = "";
+		line += getLeftSpacer();
+		line += settings.getRoundOverString();
+		line += winnerString;
+		System.out.println(line);
+	}
+	
+	public void printRoundOverOptions() {
+		String line = "";
+		line += getLeftSpacer();
+		line += settings.getRoundOverOptions();
+		System.out.println(line);
+	}
+	
+	public void printGoodbye() {
+		String line = "";
+		line += getLeftSpacer();
+		line += settings.getGoodbyeMessage();
+		System.out.println(line);
+	}
+	
 	//generic method that will print a formatted row, could also change to return String instead
 	//printRow receives each card String and formats for printing to console
 	private String getFormattedRow(String[] columns) {
@@ -134,11 +171,11 @@ public class DisplayHandler {
 			String leftPadding = "";
 			String rightPadding = "";
 			
-			int leftSpaces = (int) Math.floor( (COL_WIDTH - card.length()) / 2);
+			int leftSpaces = (int) Math.floor( (settings.getColWidth() - card.length()) / 2);
 			for (int j = 0; j < leftSpaces; j++) {
 				leftPadding += " ";
 			}
-			int rightSpaces = COL_WIDTH - leftSpaces - card.length();
+			int rightSpaces = settings.getColWidth() - leftSpaces - card.length();
 			for (int j = 0; j < rightSpaces; j++) {
 				rightPadding += " ";
 			}
@@ -147,11 +184,9 @@ public class DisplayHandler {
 			column += leftPadding + card + rightPadding;
 			
 			//create line
-			//add left offset of empty spaces via int LEFT_SPACER on first column only
+			//add left offset of empty spaces on first column only
 			if (i == 0) {
-				for (int j = 0; j < LEFT_SPACER; j++) {
-					line += " ";
-				}
+				line += getLeftSpacer();
 			}
 			
 			// add centered column
@@ -159,7 +194,7 @@ public class DisplayHandler {
 			
 			//add spacer if not the last column
 			if (i < numColumns - 1) {
-				for (int j = 0; j < COL_SPACER; j++) {
+				for (int j = 0; j < settings.getColSpacer(); j++) {
 					line += " ";
 				}
 			}
@@ -169,14 +204,43 @@ public class DisplayHandler {
 		return line;
 	}
 	
+	public String getLeftSpacer() {
+		String output = "";
+		
+		int leftSpacerCount = settings.getLeftSpacer();
+		
+		//left offset
+		for (int i = 0; i < leftSpacerCount; i++) {
+			output += " ";
+		}
+		
+		return output;
+	}
+	
+	public void printLineBreak() {
+		String line = "";
+		
+		//left offset
+		line += getLeftSpacer();
+		
+		//filler for rest of line
+		int numFiller = settings.getDisplayWidth();
+		for (int i = 0; i < numFiller; i++) {
+			line += settings.getlineBreakChar();
+		}
+		
+		System.out.println(line);
+	}
+	
 	public int[] getInputIndices(ArrayList<BlackjackHand> playerList) {
 		int numPlayers = playerList.size();
+		String choicePrompt = settings.getChoicePrompt();
 		String[] promptArray = new String[numPlayers]; //this will be sent to printRow
 		int[] inputIndices = new int[numPlayers]; //array of starting indices for future input
-		char promptFirstLetter = CHOICE_PROMPT.charAt(0);
+		char promptFirstLetter = choicePrompt.charAt(0);
 		
 		for (int i = 0; i < numPlayers; i++) {
-			promptArray[i] = CHOICE_PROMPT + "X";
+			promptArray[i] = choicePrompt + "X";
 		}
 		
 		String line = getFormattedRow(promptArray);
