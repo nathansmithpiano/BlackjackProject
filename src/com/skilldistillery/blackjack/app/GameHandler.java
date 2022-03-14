@@ -55,6 +55,7 @@ public class GameHandler {
 	}
 	
 	private void playGame() {
+		System.out.println(); //empty line break
 		//continue until only 1 player left
 		
 		BlackjackHand currentPlayer = playerList.get(settings.getFirstPlayerIndex());
@@ -141,7 +142,6 @@ public class GameHandler {
 			switch (choice) {
 			case 1:
 				//Play again
-				System.out.println(); //
 				playGame();
 				break;
 			case 2:
