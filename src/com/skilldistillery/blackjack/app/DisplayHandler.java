@@ -11,14 +11,9 @@ public class DisplayHandler {
 	private final int COL_SPACER = 4; //empty space between columns
 	private final int LEFT_SPACER = 4; //empty space before first column 
 	private final String ROUND_OPTIONS = "1. Hit 2. Stay 3. Exit";
-	private int[] inputIndices; //starting index for inputs
-	private int numPlayers; //not used?
+	private final String CHOICE_PROMPT = "Your choice: ";
 	
-	public void setNumPlayers(int num) {
-		inputIndices = new int[numPlayers];
-	}
-	
-	//print player header by sending String[] of names to printRow() for formatting and printing
+	//print player header by sending String[] of names to printRow() for formatting, print return
 	public void printPlayerHeader(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer, boolean roundOver) {
 		int numPlayers = playerList.size();
 		String[] playerNames = new String[numPlayers];
@@ -47,11 +42,11 @@ public class DisplayHandler {
 			playerNames[i] = header;
 		}
 		
-		//send to printRow for printing
-		printRow(playerNames);
+		//send to printRow, print result
+		System.out.println(getFormattedRow(playerNames));
 	}
 	
-	//print all cards by sending String[][] of card names to printRow() for formatting and printing
+	//print all cards by sending String[][] of card names to printRow() for formatting, print return
 	public void printCards(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer, boolean roundOver) {
 		
 		String[][] cards; //[row][player] of width players and of height most cards
@@ -84,13 +79,13 @@ public class DisplayHandler {
 			}
 		}
 		
-		//send each row to printRow
+		//send each row to printRow, print result
 		for (int i = 0; i < mostCards; i++) {
-			printRow(cards[i]);
+			System.out.println(getFormattedRow(cards[i]));
 		}
 	}
 	
-	//print statuses by sending String[] status to printRow() for formatting and printing
+	//print statuses by sending String[] status to printRow() for formatting, print return
 	public void printPlayerStatus(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer, boolean roundOver) {
 		
 		int numPlayers = playerList.size();
@@ -120,12 +115,13 @@ public class DisplayHandler {
 			statusArray[i] = status;
 		}
 		
-		printRow(statusArray);
+		//send to printRow, print result
+		System.out.println(getFormattedRow(statusArray));
 	}
 	
 	//generic method that will print a formatted row, could also change to return String instead
 	//printRow receives each card String and formats for printing to console
-	private void printRow(String[] columns) {
+	private String getFormattedRow(String[] columns) {
 		String line = ""; //line that will actually be printed
 		int numColumns = columns.length;
 		
@@ -169,12 +165,31 @@ public class DisplayHandler {
 			}
 		}
 		
-		//display line
-		//could output as formatted String for future implementation
-		System.out.println(line);
+		//output as formatted String for printing or further manipulation
+		return line;
 	}
 	
-	private int[] getInputIndices(String inputPrompt) {
+	public int[] getInputIndices(ArrayList<BlackjackHand> playerList) {
+		int numPlayers = playerList.size();
+		String[] promptArray = new String[numPlayers]; //this will be sent to printRow
+		int[] inputIndices = new int[numPlayers]; //array of starting indices for future input
+		char promptFirstLetter = CHOICE_PROMPT.charAt(0);
+		
+		for (int i = 0; i < numPlayers; i++) {
+			promptArray[i] = CHOICE_PROMPT + "X";
+		}
+		
+		String line = getFormattedRow(promptArray);
+		int lineLength = line.length();
+		int foundCount = 0;
+		//parse through line and if matches promptFirstLetter, insert that index to inputIndices
+		for (int i = 0 ; i < lineLength; i++) {
+			if (line.charAt(i) == promptFirstLetter) {
+				inputIndices[foundCount] = i;
+				foundCount++;
+			}
+		}
+		
 		return inputIndices;
 	}
 	

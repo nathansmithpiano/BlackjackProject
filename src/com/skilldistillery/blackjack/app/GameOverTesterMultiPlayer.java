@@ -10,6 +10,7 @@ public class GameOverTesterMultiPlayer {
 	
 	Deck deck;
 	private DisplayHandler display;
+	private InputHandler input;
 	ArrayList<BlackjackHand> playerList;
 	
 	// SETTINGS:
@@ -19,6 +20,7 @@ public class GameOverTesterMultiPlayer {
 	{
 		deck = new Deck();
 		display = new DisplayHandler();
+		input = new InputHandler();
 		playerList = new ArrayList<>();
 	}
 	
@@ -33,7 +35,9 @@ public class GameOverTesterMultiPlayer {
 			playerList.add(new BlackjackHand());
 		}
 		
-		display.setNumPlayers(playerList.size());
+		//setup inputHandler
+		int[] inputIndices = display.getInputIndices(playerList);
+		input.setInputIndices(inputIndices);
 		
 	}
 	
@@ -83,6 +87,7 @@ public class GameOverTesterMultiPlayer {
 			display.printPlayerHeader(playerList, currentPlayer, roundOver);
 			display.printCards(playerList, currentPlayer, roundOver); 
 			display.printPlayerStatus(playerList, currentPlayer, roundOver);
+			input.promptChoice(playerList, currentPlayer);
 			
 		}
 		//round over, players discard all cards
