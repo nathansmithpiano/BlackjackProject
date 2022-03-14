@@ -38,7 +38,7 @@ public class Settings {
 	}
 	
 	private void setDisplayWidth(int numPlayers) {
-		displayWidth = LEFT_SPACER + (numPlayers * COL_WIDTH) + ( (numPlayers - 1) * COL_SPACER);
+		displayWidth = (numPlayers * COL_WIDTH) + ( (numPlayers - 1) * COL_SPACER);
 	}
 	
 	public int getDisplayWidth() {
