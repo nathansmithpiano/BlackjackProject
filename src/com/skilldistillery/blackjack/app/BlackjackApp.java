@@ -1,14 +1,10 @@
 package com.skilldistillery.blackjack.app;
 
-import com.skilldistillery.blackjack.common.Deck;
-
 public class BlackjackApp {
 	
-//	DeckTester game;
 	GameHandler game;
 	
 	{
-//		game = new DeckTester();
 		game = new GameHandler();
 	}
 	
@@ -20,7 +16,6 @@ public class BlackjackApp {
 	
 	private void run() {
 		game.start();
-		
 	}
 
 }
