@@ -60,7 +60,7 @@ public class DeckTester {
 			//give cards to each player
 			for (BlackjackHand player : playerList) {
 				testDeal(player, numCards);
-				display.printCards(playerList, currentPlayer);
+				display.printCards(playerList, currentPlayer, false);
 			}
 //			printStatusSingleLine(playerList);
 			discardAll(playerList);

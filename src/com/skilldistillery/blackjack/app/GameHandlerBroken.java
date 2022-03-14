@@ -5,7 +5,7 @@ import com.skilldistillery.blackjack.common.Deck;
 
 public class GameHandlerBroken {
 	
-	private	InputHandler ih;
+	private	InputHandlerOLD ih;
 	private BlackjackHand player1;
 	private BlackjackHand dealer;
 	private BlackjackHand[] humanPlayers;
@@ -15,7 +15,7 @@ public class GameHandlerBroken {
 	private int numHumanPlayers = 2; //later, dynamic
 	
 	{
-		ih = new InputHandler();
+		ih = new InputHandlerOLD();
 		dealer = new BlackjackHand();
 		humanPlayers = new BlackjackHand[numHumanPlayers]; //later, do dynamically based on input
 		allPlayers = new BlackjackHand[numHumanPlayers + 1]; //later, do dynamically based on input

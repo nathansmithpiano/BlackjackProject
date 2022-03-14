@@ -33,12 +33,14 @@ public class GameOverTesterMultiPlayer {
 			playerList.add(new BlackjackHand());
 		}
 		
+		display.setNumPlayers(playerList.size());
+		
 	}
 	
 	public void start() {
 		
 		//give initial cards to players
-		int numCards = 3;
+		int numCards = 1;
 		for (int i = 0; i < numCards; i++) {
 			//for each player
 			for (BlackjackHand player : playerList) {
@@ -55,6 +57,7 @@ public class GameOverTesterMultiPlayer {
 	private void doRound(int numRounds, ArrayList<BlackjackHand> playerList) {
 		//for loop for rounds
 		//TODO: make this continuous until roundOver
+		boolean roundOver = false;
 		
 		//TESTING: move currentPlayer each round
 		int currentPlayerIndex = 0; //start with Player 1
@@ -77,15 +80,20 @@ public class GameOverTesterMultiPlayer {
 			}
 			
 			//print cards to screen
+			display.printPlayerHeader(playerList, currentPlayer, roundOver);
+			display.printCards(playerList, currentPlayer, roundOver); 
+			display.printPlayerStatus(playerList, currentPlayer, roundOver);
 			
-			//TODO: Add something for when round is over, show all cards
-			// see DisplayHandler line 66
-			display.printPlayerHeader(playerList, currentPlayer);
-			display.printCards(playerList, currentPlayer);
-//			printStatusSingleLine(playerList);
-			
-			//round over, players discard all cards
 		}
+		//round over, players discard all cards
+		roundOver = true;
+		
+		//TESTING: show final status
+		System.out.println("\n------ ROUND OVER ------");
+		display.printPlayerHeader(playerList, null, roundOver); //boolean roundOver
+		display.printCards(playerList, null, roundOver); 
+		display.printPlayerStatus(playerList, null, roundOver);
+		
 	}
 	
 	//print status as columns

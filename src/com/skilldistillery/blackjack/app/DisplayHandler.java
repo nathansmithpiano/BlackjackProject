@@ -6,36 +6,45 @@ import com.skilldistillery.blackjack.common.Card;
 
 public class DisplayHandler {
 	
-	//note: recommended minimum of 20 for COL_WIDTH
-	private final int COL_WIDTH = 20; //width of each player column
+	//note: recommended minimum of 22 for COL_WIDTH, largest is ROUND_OPTIONS
+	private final int COL_WIDTH = 22; //width of each player column
 	private final int COL_SPACER = 4; //empty space between columns
 	private final int LEFT_SPACER = 4; //empty space before first column 
+	private final String ROUND_OPTIONS = "1. Hit 2. Stay 3. Exit";
+	private int[] inputIndices; //starting index for inputs
+	private int numPlayers; //not used?
+	
+	public void setNumPlayers(int num) {
+		inputIndices = new int[numPlayers];
+	}
 	
 	//print player header by sending String[] of names to printRow() for formatting and printing
-	public void printPlayerHeader(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer) {
+	public void printPlayerHeader(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer, boolean roundOver) {
 		int numPlayers = playerList.size();
 		String[] playerNames = new String[numPlayers];
 		
 		//populate playerNames with String
 		for (int i = 0; i < numPlayers; i++) {
+			String header = "";
 			// unique formatting for dealer
 			if (i == numPlayers - 1) {
-				//if dealer is current player
-				if (playerList.get(playerList.size() - 1) == currentPlayer) {
-					playerNames[i] = "-> DEALER <-";
+				//if dealer is current player and round is not over
+				if ((playerList.get(playerList.size() - 1) == currentPlayer) && (!roundOver) ) {
+					header = "-> DEALER <-";
 				} else {
-					//not current player
-					playerNames[i] = "DEALER";
+					//not current player or round is over
+					header = "DEALER";
 				}
 			} else {
-				//if player is current player
-				if (playerList.get(i) == currentPlayer) {
-					playerNames[i] = "-> PLAYER " + (i + 1) + " <-";
+				//if player is current player and round is not over
+				if ( (playerList.get(i) == currentPlayer) && (!roundOver) ){
+					header = "-> PLAYER " + (i + 1) + " <-";
 				} else {
-					//not current player
-					playerNames[i] = "PLAYER " + (i + 1);
+					//not current player or round is over
+					header = "PLAYER " + (i + 1);
 				}
 			}
+			playerNames[i] = header;
 		}
 		
 		//send to printRow for printing
@@ -43,7 +52,7 @@ public class DisplayHandler {
 	}
 	
 	//print all cards by sending String[][] of card names to printRow() for formatting and printing
-	public void printCards(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer) {
+	public void printCards(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer, boolean roundOver) {
 		
 		String[][] cards; //[row][player] of width players and of height most cards
 		
@@ -62,16 +71,16 @@ public class DisplayHandler {
 		for (int r = 0; r < mostCards; r++) {
 			for (int p = 0; p < numPlayers; p++) {
 				BlackjackHand player = playerList.get(p);
+				String currentCard = "";
 				//hide first if currentPlayer
 				
-				//TODO: implement something from additional passed parameter
-				// needs to hide dealer card is continuous
-				// needs to show all cards if round is over (careful, NOT via Hand stuff)
-				if (currentPlayer == player) {
-					cards[r][p] = player.printCard("hidefirst", r);
+				//show all cards if (current player and not dealer) OR roundOver
+				if ( (currentPlayer == player && !(player == playerList.get(numPlayers - 1))) || roundOver) {
+					currentCard = player.printCard("", r);
 				} else {
-					cards[r][p] = player.printCard("", r);
+					currentCard = player.printCard("hidefirst", r);
 				}
+				cards[r][p] = currentCard;
 			}
 		}
 		
@@ -79,8 +88,39 @@ public class DisplayHandler {
 		for (int i = 0; i < mostCards; i++) {
 			printRow(cards[i]);
 		}
+	}
+	
+	//print statuses by sending String[] status to printRow() for formatting and printing
+	public void printPlayerStatus(ArrayList<BlackjackHand> playerList, BlackjackHand currentPlayer, boolean roundOver) {
 		
+		int numPlayers = playerList.size();
+		String[] statusArray = new String[numPlayers];
 		
+		//for each player
+		for (int i = 0; i < numPlayers; i++) {
+			BlackjackHand player = playerList.get(i);
+			String status = ""; //String for player
+			
+			//if round is not over and currentPlayer and not dealer
+			if (!roundOver && currentPlayer == player && !(currentPlayer == playerList.get(numPlayers - 1))) {
+				//show options
+				status = ROUND_OPTIONS;
+			} 
+			
+			//show all statuses when round is over, otherwise nothing
+			if (roundOver) {
+				if (player.isBust()) {
+					status = "BUST! ";
+				} else if (player.isBlackjack()) {
+					status = "BLACKJACK! ";
+				}
+			}
+			
+			//insert into Array
+			statusArray[i] = status;
+		}
+		
+		printRow(statusArray);
 	}
 	
 	//generic method that will print a formatted row, could also change to return String instead
@@ -133,5 +173,10 @@ public class DisplayHandler {
 		//could output as formatted String for future implementation
 		System.out.println(line);
 	}
+	
+	private int[] getInputIndices(String inputPrompt) {
+		return inputIndices;
+	}
+	
 
 }

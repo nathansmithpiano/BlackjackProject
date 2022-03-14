@@ -14,11 +14,11 @@ public class BlackjackHand extends Hand {
 	}
 	
 	public boolean isBlackjack() {
-		return getHandValue() == 21;
+		return (getHandValue() == 21); //true if value == 21
 	}
 	
 	public boolean isBust() {
-		return getHandValue() > 21;
+		return (getHandValue() > 21); //true if value > 21
 	}
 	
 	public boolean roundOver() {
