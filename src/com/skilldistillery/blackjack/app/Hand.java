@@ -31,31 +31,12 @@ public abstract class Hand {
 		setPass(false);
 	}
 	
-	//UNUSED
-//	public Card getHighestCard() {
-//		Card highestCard = cards.get(0);
-//		for (Card card : cards) {
-//			if (card.getValue() > highestCard.getValue()) {
-//				highestCard = card;
-//			}
-//		}
-//		return highestCard;
-//	}
-	
 	public void setPass(boolean pass) {
 		this.pass = pass;
 	}
 	
 	public boolean isPass() {
 		return pass;
-	}
-	
-	public void setTurn(boolean isTurn) {
-		this.isTurn = isTurn;
-	}
-	
-	public boolean isTurn() {
-		return isTurn;
 	}
 	
 	public String printCard(String hidefirst, int index) {
@@ -86,8 +67,7 @@ public abstract class Hand {
 	public int getNumCards() {
 		return cards.size();
 	}
-
-
+	
 	@Override
 	public String toString() {
 		return "Hand.toString() not yet implemented";
