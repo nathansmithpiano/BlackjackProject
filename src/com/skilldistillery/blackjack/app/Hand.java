@@ -9,8 +9,6 @@ public abstract class Hand {
 	
 	protected List<Card> cards;
 	private boolean pass;
-	private boolean isTurn;
-
 	public abstract int getHandValue();
 	public abstract boolean roundOver();
 	
