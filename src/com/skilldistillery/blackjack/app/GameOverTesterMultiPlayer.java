@@ -47,7 +47,7 @@ public class GameOverTesterMultiPlayer {
 		}
 		
 		//temporary, do test number of rounds
-		int testRounds = 5;
+		int testRounds = 10;
 		doRound(testRounds, playerList);
 //		printPlayers();
 	}
@@ -55,8 +55,19 @@ public class GameOverTesterMultiPlayer {
 	private void doRound(int numRounds, ArrayList<BlackjackHand> playerList) {
 		//for loop for rounds
 		//TODO: make this continuous until roundOver
+		
+		//TESTING: move currentPlayer each round
+		int currentPlayerIndex = 0; //start with Player 1
 		for (int i = 0; i < numRounds; i++) {
-			BlackjackHand currentPlayer = playerList.get(0); //Player 1 by default
+//			BlackjackHand currentPlayer = playerList.get(0); //Player 1 by default
+			
+			//TESTING: move currentPlayer each round
+			if (currentPlayerIndex == playerList.size()) {
+				currentPlayerIndex = 0; 
+			}
+			BlackjackHand currentPlayer = playerList.get(currentPlayerIndex); //choose
+			currentPlayerIndex++;
+			
 			
 			System.out.println("\n------ Round " + (i + 1) + ": -----");
 			
