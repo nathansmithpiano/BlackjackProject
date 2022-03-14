@@ -17,10 +17,6 @@ public class GameHandler {
 	private InputHandler input;
 	ArrayList<BlackjackHand> playerList;
 	
-	// SETTINGS:
-	private int firstPlayer = 0; //human player goes first
-	//note: dealer is at last index
-	
 	{
 		settings = new Settings();
 		deck = new Deck();
@@ -62,7 +58,6 @@ public class GameHandler {
 		//continue until only 1 player left
 		
 		BlackjackHand currentPlayer = playerList.get(settings.getFirstPlayerIndex());
-		BlackjackHand winner;
 		int numPlayers = playerList.size();
 		
 		boolean userExit = false; //for skipping display
@@ -287,7 +282,6 @@ public class GameHandler {
 		}
 	}
 	
-	
 	private void roundOverReset() {
 		//for all players, including dealer
 		for (BlackjackHand player : playerList) {
@@ -308,13 +302,11 @@ public class GameHandler {
 	
 	private void doRound(int numRounds, ArrayList<BlackjackHand> playerList) {
 		//for loop for rounds
-		//TODO: make this continuous until roundOver
 		boolean roundOver = false;
 		
-		//TESTING: move currentPlayer each round
+		//move currentPlayer each round
 		int currentPlayerIndex = 0; //start with Player 1
 		for (int i = 0; i < numRounds; i++) {
-//			BlackjackHand currentPlayer = playerList.get(0); //Player 1 by default
 			
 			//TESTING: move currentPlayer each round
 			if (currentPlayerIndex == playerList.size()) {
@@ -346,7 +338,6 @@ public class GameHandler {
 		display.printPlayerHeader(playerList, null, roundOver); //boolean roundOver
 		display.printCards(playerList, null, roundOver); 
 		display.printPlayerStatus(playerList, null, roundOver);
-		
 	}
 	
 	private boolean isRoundOver() {
@@ -370,8 +361,6 @@ public class GameHandler {
 	
 	private String getRoundOverString() {
 		String line = "";
-		
-		
 		return line;
 	}
 	
